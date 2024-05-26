@@ -77,9 +77,9 @@ export default function App() {
           <Text style={styles.whiteText}>Agregar</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.scrollContainer}>
-        <FlatList renderItem={({item}) => ( <RenderItem item={item} deleteFunction={deleteFunction} markDone={markDone}/>)} data={tasks}/>
-      </View>
+      
+      <FlatList style={styles.scrollContainer} renderItem={({item}) => ( <RenderItem item={item} deleteFunction={deleteFunction} markDone={markDone}/>)} data={tasks}/>
+      
     </SafeAreaView>
   );
 }
