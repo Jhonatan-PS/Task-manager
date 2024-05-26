@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {View,Text,TextInput,TouchableOpacity,FlatList} from "react-native";
+import {View,Text,TextInput,TouchableOpacity,FlatList,SafeAreaView} from "react-native";
 import styles from "./src/styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import RenderItem from "./src/components/RenderItem";
@@ -69,7 +69,7 @@ export default function App() {
   };
   
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Task manager</Text>
       <View style={styles.inputContainer}>
         <TextInput placeholder="Agregar tarea" onChangeText={(t: string) => setText(t)} style={styles.textInput} value={text}/>
@@ -80,6 +80,6 @@ export default function App() {
       <View style={styles.scrollContainer}>
         <FlatList renderItem={({item}) => ( <RenderItem item={item} deleteFunction={deleteFunction} markDone={markDone}/>)} data={tasks}/>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
