@@ -1,9 +1,11 @@
 <resources>
+    <!-- Define un fondo personalizado para EditText -->
+    <drawable name="custom_edit_text_background">#FFFFFFFF</drawable>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="android:editTextBackground">@drawable/rn_edit_text_material</item>
+        <!-- Personaliza tu tema aquí. -->
+        <item name="android:editTextBackground">@drawable/custom_edit_text_background</item>
     </style>
-
 </resources>
+
