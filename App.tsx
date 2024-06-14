@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from "react";
-import {View,Text,TextInput,TouchableOpacity,FlatList,SafeAreaView} from "react-native";
+import {View,Text,TextInput,TouchableOpacity,FlatList,SafeAreaView,Alert} from "react-native";
 import styles from "./src/styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import RenderItem from "./src/components/RenderItem";
 
 export interface Task {
+  id: string;
   title: string;
   done: boolean;
   date: Date;
@@ -39,31 +40,33 @@ export default function App() {
   }, []);
 
   const addTask = () => {
-    const tmp = [...tasks];
+    const taskExists = tasks.some(task => task.title === text);
+    if (taskExists) {
+      Alert.alert("Error", "Ya existe una tarea con ese nombre");
+      return;
+    }
+    
     const newTask = {
+      id: Date.now().toString(), // Generar un id único
       title: text,
       done: false,
       date: new Date(),
-    }
-    tmp.push(newTask);
+    };
+
+    const tmp = [...tasks, newTask];
     setTasks(tmp);
     storeData(tmp);
     setText('');
   };
 
   const markDone = (task: Task) => {
-    const tmp = [...tasks];
-    const index = tmp.findIndex(t => t.title === task.title);
-    const todo = tmp[index];
-    todo.done = !todo.done;
+    const tmp = tasks.map(t => t.id === task.id ? {...t, done: !t.done} : t);
     setTasks(tmp);
     storeData(tmp);
   };
 
   const deleteFunction = (task: Task) => {
-    const tmp = [...tasks];
-    const index = tmp.findIndex(t => t.title === task.title);
-    tmp.splice(index, 1);
+    const tmp = tasks.filter(t => t.id !== task.id);
     setTasks(tmp);
     storeData(tmp);
   };
