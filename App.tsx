@@ -1,8 +1,16 @@
-import React, {useState, useEffect} from "react";
-import {View,Text,TextInput,TouchableOpacity,FlatList,SafeAreaView,Alert} from "react-native";
-import styles from "./src/styles";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import RenderItem from "./src/components/RenderItem";
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+  SafeAreaView,
+  Alert,
+} from 'react-native';
+import styles from './src/styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import RenderItem from './src/components/RenderItem';
 
 export interface Task {
   id: string;
@@ -27,10 +35,10 @@ export default function App() {
     try {
       const value = await AsyncStorage.getItem('my-key');
       if (value !== null) {
-        const tasksLocal = JSON.parse(value);  
-        setTasks(tasksLocal);      
+        const tasksLocal = JSON.parse(value);
+        setTasks(tasksLocal);
       }
-    } catch(e) {
+    } catch (e) {
       // error reading value
     }
   };
@@ -42,10 +50,10 @@ export default function App() {
   const addTask = () => {
     const taskExists = tasks.some(task => task.title === text);
     if (taskExists) {
-      Alert.alert("Error", "Ya existe una tarea con ese nombre");
+      Alert.alert('Error', 'Ya existe una tarea con ese nombre');
       return;
     }
-    
+
     const newTask = {
       id: Date.now().toString(), // Generar un id único
       title: text,
@@ -60,7 +68,7 @@ export default function App() {
   };
 
   const markDone = (task: Task) => {
-    const tmp = tasks.map(t => t.id === task.id ? {...t, done: !t.done} : t);
+    const tmp = tasks.map(t => (t.id === task.id ? {...t, done: !t.done} : t));
     setTasks(tmp);
     storeData(tmp);
   };
@@ -70,19 +78,33 @@ export default function App() {
     setTasks(tmp);
     storeData(tmp);
   };
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Task manager</Text>
       <View style={styles.inputContainer}>
-        <TextInput placeholder="Agregar tarea" onChangeText={(t: string) => setText(t)} style={styles.textInput} value={text}/>
+        <TextInput
+          placeholder="Agregar tarea"
+          onChangeText={(t: string) => setText(t)}
+          style={styles.textInput}
+          value={text}
+        />
         <TouchableOpacity onPress={addTask} style={styles.addButton}>
           <Text style={styles.whiteText}>Agregar</Text>
         </TouchableOpacity>
       </View>
-      
-      <FlatList style={styles.scrollContainer} renderItem={({item}) => ( <RenderItem item={item} deleteFunction={deleteFunction} markDone={markDone}/>)} data={tasks}/>
-      
+
+      <FlatList
+        style={styles.scrollContainer}
+        renderItem={({item}) => (
+          <RenderItem
+            item={item}
+            deleteFunction={deleteFunction}
+            markDone={markDone}
+          />
+        )}
+        data={tasks}
+      />
     </SafeAreaView>
   );
 }
